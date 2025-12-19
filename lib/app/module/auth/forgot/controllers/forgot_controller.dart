@@ -1,0 +1,31 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+class ForgotController extends GetxController {
+  // final passwordController = TextEditingController();
+  final emailController = TextEditingController();
+  //
+  // final isPasswordError = false.obs;
+  final isEmailError = false.obs;
+  // final rememberMe = false.obs;
+  //
+  // void validatePassword() {
+  //   if (passwordController.text.trim() != '123') {
+  //     isPasswordError.value = true;
+  //   } else {
+  //     isPasswordError.value = false;
+  //   }
+  // }
+  //
+  void validateEmail() {
+    if (emailController.text.trim() != "ukdev1@gmail.com") {
+      isEmailError.value = true;
+    } else {
+      isEmailError.value = false;
+    }
+  }
+
+  void validateAll() {
+    validateEmail();
+  }
+}
