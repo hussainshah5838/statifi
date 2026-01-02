@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:statifi/core/extentions/media_query_extension.dart';
+import 'package:statifi/global_widgets/appbar_header.dart';
 
 import '../../../../../../core/constants/app_texts.dart';
 import '../../../../../../global_widgets/app_background.dart';
@@ -28,7 +29,12 @@ class LoginUsingPromo extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(height: context.screeHeight * 0.1),
+            SizedBox(height: context.screeHeight * 0.02),
+
+            AppbarHeader(),
+
+            SizedBox(height: context.screeHeight * 0.025),
+
             AuthHeader(
               title: AppText.loginViaPromo,
               mainAxisAlignment: MainAxisAlignment.start,

@@ -42,145 +42,148 @@ class LoginForm extends StatelessWidget {
     return Column(
       children: [
         if (isEmailField == true)
-          // Email field
-          ValueListenableBuilder<TextEditingValue>(
-            valueListenable: emailCtrl,
-            builder: (context, emailValue, _) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomTextField(
-                    hintText: hintText ?? AppText.emailHint,
-                    postfixImage: emailValue.text.isNotEmpty
-                        ? AppImages.check
-                        : AppImages.mail,
-                    controller: emailController,
-                    keyboardType: TextInputType.emailAddress,
-                  ),
-                  const SizedBox(height: 8),
-                  // Email error message
-                  Obx(
-                    () => controller.isEmailError.value
-                        ? Row(
-                            children: [
-                              Image.asset(
-                                AppImages.info,
-                                color: Colors.red,
-                                width: 20,
-                                height: 20,
-                              ),
-                              const SizedBox(width: 6),
-                              Text(
-                                errorText ?? "Invalid email",
-                                style: AppTextStyles.body.copyWith(
-                                  color: Colors.red,
-                                ),
-                              ),
-                            ],
-                          )
-                        : const SizedBox.shrink(),
-                  ),
-                ],
-              );
-            },
-          ),
+          Obx(() {
+            final emailErr = controller.isEmailError.value; // ✅ read Rx here
+
+            return ValueListenableBuilder<TextEditingValue>(
+              valueListenable: emailCtrl,
+              builder: (context, emailValue, _) {
+                final hasEmail = emailValue.text.trim().isNotEmpty;
+
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomTextField(
+                      hintText: AppText.emailHint,
+                      postfixImage: hasEmail ? AppImages.check : AppImages.mail,
+                      controller: emailCtrl, // ✅ use emailCtrl
+                      hasError: emailErr,
+                      keyboardType: TextInputType.emailAddress,
+                    ),
+                    const SizedBox(height: 8),
+
+                    if (emailErr)
+                      Row(
+                        children: [
+                          Image.asset(
+                            AppImages.info,
+                            color: Colors.red,
+                            width: 20,
+                            height: 20,
+                          ),
+                          const SizedBox(width: 6),
+                          Text(
+                            errorText ?? "Invalid email",
+                            style: AppTextStyles.body.copyWith(
+                              color: Colors.red,
+                            ),
+                          ),
+                        ],
+                      ),
+                  ],
+                );
+              },
+            );
+          }),
 
         if (isPromoCode == true)
-          ValueListenableBuilder<TextEditingValue>(
-            valueListenable: promoCtrl,
-            builder: (context, promoValue, _) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomTextField(
-                    hintText: hintText ?? AppText.promoCodeHere,
-                    postfixImage: promoValue.text.isNotEmpty
-                        ? AppImages.check
-                        : AppImages.mail,
-                    controller: promoController,
-                    keyboardType: TextInputType.emailAddress,
-                  ),
-                  const SizedBox(height: 8),
-                  // Email error message
-                  Obx(
-                    () => controller.isPromoCodeLink.value
-                        ? Row(
-                            children: [
-                              Image.asset(
-                                AppImages.info,
-                                color: Colors.red,
-                                width: 20,
-                                height: 20,
-                              ),
-                              const SizedBox(width: 6),
-                              Text(
-                                errorText ?? "invalid promo code or link",
-                                style: AppTextStyles.body.copyWith(
-                                  color: Colors.red,
-                                ),
-                              ),
-                            ],
-                          )
-                        : const SizedBox.shrink(),
-                  ),
-                ],
-              );
-            },
-          ),
+          Obx(() {
+            final promoErr = controller.isPromoCodeLink.value;
+
+            return ValueListenableBuilder<TextEditingValue>(
+              valueListenable: promoCtrl,
+              builder: (context, promoValue, _) {
+                final hasPromo = promoValue.text.trim().isNotEmpty;
+
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomTextField(
+                      hintText: AppText.promoCodeHere,
+                      postfixImage: hasPromo ? AppImages.check : AppImages.mail,
+                      controller: promoCtrl,
+                      hasError: promoErr,
+                      keyboardType: TextInputType.text,
+                    ),
+                    const SizedBox(height: 8),
+
+                    if (promoErr)
+                      Row(
+                        children: [
+                          Image.asset(
+                            AppImages.info,
+                            color: Colors.red,
+                            width: 20,
+                            height: 20,
+                          ),
+                          const SizedBox(width: 6),
+                          Text(
+                            errorText ?? "invalid promo code or link",
+                            style: AppTextStyles.body.copyWith(
+                              color: Colors.red,
+                            ),
+                          ),
+                        ],
+                      ),
+                  ],
+                );
+              },
+            );
+          }),
 
         // Password field
-        Obx(
-          () => Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (isPasswordField == true)
+        if (isPasswordField == true)
+          Obx(
+            () => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
                 CustomTextField(
                   hintText: AppText.passwordHint,
                   isPassword: true,
                   controller: passwordController,
                   hasError: controller.isPasswordError.value,
                 ),
-              const SizedBox(height: 12),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  if (controller.isPasswordError.value) ...[
-                    Image.asset(
-                      AppImages.info,
-                      color: Colors.red,
-                      width: 20,
-                      height: 20,
-                    ),
-                    const SizedBox(width: 6),
-                    Text(
-                      AppText.invalidPassword,
-                      style: AppTextStyles.body.copyWith(color: Colors.red),
-                    ),
-                  ],
+                const SizedBox(height: 12),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    if (controller.isPasswordError.value) ...[
+                      Image.asset(
+                        AppImages.info,
+                        color: Colors.red,
+                        width: 20,
+                        height: 20,
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        AppText.invalidPassword,
+                        style: AppTextStyles.body.copyWith(color: Colors.red),
+                      ),
+                    ],
 
-                  if (isForgotPassword == true)
-                    Expanded(
-                      child: Align(
-                        alignment: Alignment.centerRight,
-                        child: GestureDetector(
-                          onTap: () {
-                            Get.toNamed(AppRoutes.forgot);
-                          },
-                          child: Text(
-                            AppText.forgotPassword,
-                            style: AppTextStyles.body.copyWith(
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.textSecondary,
+                    if (isForgotPassword == true)
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: GestureDetector(
+                            onTap: () {
+                              Get.toNamed(AppRoutes.forgot);
+                            },
+                            child: Text(
+                              AppText.forgotPassword,
+                              style: AppTextStyles.body.copyWith(
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.textSecondary,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
 
         const SizedBox(height: 12),
 
