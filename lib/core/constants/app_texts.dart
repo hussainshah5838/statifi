@@ -20,6 +20,12 @@ class AppText {
   static const String alreadyAccount = "Already have an account? ";
   static const String signUP = "Sign Up";
 
+  // login via promo code
+  static const String loginViaPromo = "Login using Promo code/Link";
+  static const String loginViaPromoDec =
+      "Please enter or paste your promo code or login link.";
+  static const String promoCodeHere = "Promo code here";
+
   // Forgot Password
   static const String forgotPasswordTitle = "Forgot Password?";
   static const String forgotPasswordSubtitle =

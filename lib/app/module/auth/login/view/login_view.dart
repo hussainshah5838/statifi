@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:statifi/app/module/auth/login/view/sub_screens/login_using_promo.dart';
 import 'package:statifi/core/extentions/media_query_extension.dart';
 import 'package:statifi/global_widgets/header.dart';
 import 'package:statifi/app/module/auth/login/view/widgets/login_form.dart';
@@ -129,6 +130,16 @@ class LoginView extends StatelessWidget {
                       Image.asset(AppImages.line),
                       const SizedBox(height: 20),
 
+                      AuthButton(
+                        text: "Login using promo code/Link",
+                        color: AppColors.tColor1,
+                        txtColor: AppColors.textWhite,
+
+                        onTap: () => Get.to(() => LoginUsingPromo()),
+                      ),
+
+                      const SizedBox(height: 15),
+
                       // Google button
                       GoogleContinueButton(
                         onTap: () {
@@ -162,6 +173,7 @@ class LoginView extends StatelessWidget {
                           ],
                         ),
                       ),
+                      const SizedBox(height: 10),
                     ],
                   ),
                 ),

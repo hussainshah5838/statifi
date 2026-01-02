@@ -3,23 +3,29 @@ import 'package:flutter/material.dart';
 import 'app_textstyle.dart';
 
 class AuthHeader extends StatelessWidget {
-  final String imagePath;
+  final String? imagePath;
   final String title;
   final String subtitle;
+  final MainAxisAlignment? mainAxisAlignment;
+  final CrossAxisAlignment? crossAxisAlignment;
 
   const AuthHeader({
     super.key,
-    required this.imagePath,
+    this.imagePath,
     required this.title,
     required this.subtitle,
+    this.mainAxisAlignment,
+    this.crossAxisAlignment,
   });
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.center,
+      crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.center,
       children: [
-        Image.asset(imagePath, width: 150, height: 150),
+        if (imagePath != null && imagePath!.isNotEmpty)
+          Image.asset(imagePath!, width: 150, height: 150),
         const SizedBox(height: 20),
 
         Text(title, style: AppTextStyles.title, textAlign: TextAlign.center),
